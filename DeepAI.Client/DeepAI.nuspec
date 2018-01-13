@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DeepAI.Client</id>
+    <version>$version$</version>
+    <title>DeepAI Client Library</title>
+    <authors>Deep AI, Inc</authors>
+    <owners>Deep AI, Inc</owners>
+    <!-- <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl> -->
+    <!-- <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl> -->
+    <iconUrl>https://deepai.org/assets/img/deepai-brackets.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Simple C# client library for DeepAI's machine learning APIs. https://deepai.org </description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright Deep AI, Inc</copyright>
+    <tags>deepai machine learning deep learning image video recognition realtime style nudity detection ai artificial intelligence</tags>
+  </metadata>
+</package>
