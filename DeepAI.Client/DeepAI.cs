@@ -11,7 +11,9 @@ using System.Web.Script.Serialization;
 
 namespace DeepAI
 {
-
+    /// <summary>
+    /// Main API Client class - create an instance of the api by calling: DeepAI_API api = new DeepAI_API(apiKey: "...");
+    /// </summary>
     public class DeepAI_API
     {
         private String apiKey;
@@ -79,21 +81,47 @@ namespace DeepAI
 
         }
 
+        /// <summary>
+        /// Get the full list of your active realtime streams, plus streams started or stopped in the last hour
+        /// </summary>
+        /// <returns>List of stream info objects</returns>
         public Dictionary<String, Object> getRealtimeStreams()
         {
             return (Dictionary<String, Object>)apiCall(url_path: "realtime-video");
         }
 
+        /// <summary>
+        /// Get the info for a single realtime stream. Useful for continuously polling the status of a stream.
+        /// </summary>
+        /// <param name="id">ID of the stream to get</param>
+        /// <returns>Stream Info object</returns>
         public Dictionary<String, Object> getRealtimeStream(int id)
         {
             return (Dictionary<String, Object>)apiCall(url_path: "realtime-video/" + id);
         }
 
+        /// <summary>
+        /// Abort a single realtime stream.
+        /// </summary>
+        /// <param name="id">ID of the stream to stop</param>
+        /// <returns>Stream Info object</returns>
         public Dictionary<String, Object> stopRealtimeStream(int id)
         {
             return (Dictionary<String, Object>)apiCall(url_path: "realtime-video/" + id + "/stop", method: "POST");
         }
 
+        /// <summary>
+        /// Creates a new real-time stream.
+        /// The status field will initially be "PENDING" which will transition to "RUNNING" within 5 minutes.
+        /// If the provided stream does not match the width and height values passed, it will be rescaled.
+        /// </summary>
+        /// <param name="model">Name of the model to process the video with, such as "deepdream" or "fast-style-transfer"</param>
+        /// <param name="input_type">Stream descriptor of in the input video stream. Possible values are "tcp/mpegts" or "udp/mpegts".</param>
+        /// <param name="output_type">Stream descriptor of in the output video stream. Possible values are "tcp/mpegts" or "udp/mpegts".</param>
+        /// <param name="fps">Frames per second of the input video stream. The output stream will be the same frame rate.</param>
+        /// <param name="width">width of the video to process in pixels</param>
+        /// <param name="height">height of the video to process in pixels</param>
+        /// <returns>Stream Info object containing URLs which may be used to connect to the stream by sending input and receiving output.</returns>
         public Dictionary<String, Object> startRealtimeStream(
             String model,
             String input_type,
@@ -121,7 +149,11 @@ namespace DeepAI
         }
 
          */
-
+        /// <summary>
+        /// Simple helper method to pretty-print an object response of any API call for easier viewing.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
         public String objectAsJsonString(Object a){
             return JsonUtility.NormalizeJsonString(JsonConvert.SerializeObject(a));
         }
