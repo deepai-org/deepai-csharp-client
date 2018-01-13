@@ -18,6 +18,10 @@ namespace DeepAI
     {
         private String apiKey;
 
+        /// <summary>
+        /// Call this to create a new DeepAI_API instance. 
+        /// </summary>
+        /// <param name="apiKey">Your DeepAI key as found in your DeepAI dashboard.</param>
         public DeepAI_API(String apiKey)
         {
             this.apiKey = apiKey;
@@ -142,13 +146,6 @@ namespace DeepAI
             });
         }
 
-        /* //example async wrapper
-        public async Task<Dictionary<String, Object>> stopRealtimeStreamAsync(int id)
-        {
-            return await Task.Run(() => stopRealtimeStream(id)); 
-        }
-
-         */
         /// <summary>
         /// Simple helper method to pretty-print an object response of any API call for easier viewing.
         /// </summary>
