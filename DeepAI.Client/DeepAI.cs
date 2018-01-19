@@ -19,16 +19,28 @@ namespace DeepAI
     public class RealtimeStream
     {
         public int id { get; set; }
+        /// <summary>
+        /// One of PENDING, RUNNING, STOPPED, FAILED
+        /// </summary>
         public string status { get; set; }
+        public string model { get; set; }
         public string input_type { get; set; }
         public string output_type { get; set; }
+        /// <summary>
+        /// URL at which you should send your input. This URL is compatible with ffmpeg tools based upon it.
+        /// </summary>
         public string input_url { get; set; }
+
+        /// <summary>
+        /// URL at which the results can be streamed back. This URL is compatible with ffmpeg and tools based upon it, like Ventuz.
+        /// </summary>
         public string output_url { get; set; }
-        public DateTime finished_at { get; set; }
-        public DateTime started_at { get; set; }
+        public DateTime? finished_at { get; set; }
+        public DateTime? started_at { get; set; }
         public float fps { get; set; }
         public int height { get; set; }
         public int width { get; set; }
+        public int output_bitrate_kbps { get; set; }
     }
 
     class RealtimeStreamList
@@ -51,6 +63,10 @@ namespace DeepAI
     public class DeepAI_API
     {
         private String apiKey;
+        /// <summary>
+        /// Object with helper utilities for sending input to and playing back a realtime stream.
+        /// </summary>
+        public RealtimeStreamUtilities realtimeStreamUtilities;
 
         private static JsonSerializerSettings deserializerSettings = new JsonSerializerSettings
         {
@@ -65,6 +81,7 @@ namespace DeepAI
         public DeepAI_API(String apiKey)
         {
             this.apiKey = apiKey;
+            this.realtimeStreamUtilities = new RealtimeStreamUtilities();
         }
 
 
@@ -243,6 +260,7 @@ namespace DeepAI
         public String objectAsJsonString(Object a){
             return JsonUtility.NormalizeJsonString(JsonConvert.SerializeObject(a));
         }
+
 
     }
 
