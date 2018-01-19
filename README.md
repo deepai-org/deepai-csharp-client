@@ -15,11 +15,27 @@ Or clone and build this repository with Visual Studio 2013 or later.
 
 - [DeepAI_API](#T-DeepAI-DeepAI_API 'DeepAI.DeepAI_API')
   - [#ctor(apiKey)](#M-DeepAI-DeepAI_API-#ctor-System-String- 'DeepAI.DeepAI_API.#ctor(System.String)')
+  - [realtimeStreamUtilities](#F-DeepAI-DeepAI_API-realtimeStreamUtilities 'DeepAI.DeepAI_API.realtimeStreamUtilities')
   - [getRealtimeStream(id)](#M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32- 'DeepAI.DeepAI_API.getRealtimeStream(System.Int32)')
   - [getRealtimeStreams()](#M-DeepAI-DeepAI_API-getRealtimeStreams 'DeepAI.DeepAI_API.getRealtimeStreams')
   - [objectAsJsonString(a)](#M-DeepAI-DeepAI_API-objectAsJsonString-System-Object- 'DeepAI.DeepAI_API.objectAsJsonString(System.Object)')
   - [startRealtimeStream(model,input_type,output_type,fps,width,height)](#M-DeepAI-DeepAI_API-startRealtimeStream-System-String,System-String,System-String,System-Single,System-Int32,System-Int32- 'DeepAI.DeepAI_API.startRealtimeStream(System.String,System.String,System.String,System.Single,System.Int32,System.Int32)')
   - [stopRealtimeStream(id)](#M-DeepAI-DeepAI_API-stopRealtimeStream-System-Int32- 'DeepAI.DeepAI_API.stopRealtimeStream(System.Int32)')
+- [RealtimeStream](#T-DeepAI-RealtimeStream 'DeepAI.RealtimeStream')
+  - [input_url](#P-DeepAI-RealtimeStream-input_url 'DeepAI.RealtimeStream.input_url')
+  - [output_url](#P-DeepAI-RealtimeStream-output_url 'DeepAI.RealtimeStream.output_url')
+  - [status](#P-DeepAI-RealtimeStream-status 'DeepAI.RealtimeStream.status')
+- [RealtimeStreamUtilities](#T-DeepAI-RealtimeStreamUtilities 'DeepAI.RealtimeStreamUtilities')
+  - [#ctor()](#M-DeepAI-RealtimeStreamUtilities-#ctor 'DeepAI.RealtimeStreamUtilities.#ctor')
+  - [getPlayerCmdForRealtimeStream(stream)](#M-DeepAI-RealtimeStreamUtilities-getPlayerCmdForRealtimeStream-DeepAI-RealtimeStream- 'DeepAI.RealtimeStreamUtilities.getPlayerCmdForRealtimeStream(DeepAI.RealtimeStream)')
+  - [getVideoCaptureDevices()](#M-DeepAI-RealtimeStreamUtilities-getVideoCaptureDevices 'DeepAI.RealtimeStreamUtilities.getVideoCaptureDevices')
+  - [launchPlayerForStream(stream,showWindow)](#M-DeepAI-RealtimeStreamUtilities-launchPlayerForStream-DeepAI-RealtimeStream,System-Boolean- 'DeepAI.RealtimeStreamUtilities.launchPlayerForStream(DeepAI.RealtimeStream,System.Boolean)')
+  - [launchWebcamSenderForStream(stream,cameraName,bitrateKbps,showWindow)](#M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean- 'DeepAI.RealtimeStreamUtilities.launchWebcamSenderForStream(DeepAI.RealtimeStream,System.String,System.Int32,System.Boolean)')
+- [Resources](#T-DeepAI-Properties-Resources 'DeepAI.Properties.Resources')
+  - [Culture](#P-DeepAI-Properties-Resources-Culture 'DeepAI.Properties.Resources.Culture')
+  - [ffmpeg](#P-DeepAI-Properties-Resources-ffmpeg 'DeepAI.Properties.Resources.ffmpeg')
+  - [ffplay](#P-DeepAI-Properties-Resources-ffplay 'DeepAI.Properties.Resources.ffplay')
+  - [ResourceManager](#P-DeepAI-Properties-Resources-ResourceManager 'DeepAI.Properties.Resources.ResourceManager')
 
 <a name='assembly'></a>
 # DeepAI [#](#assembly 'Go To Here') [=](#contents 'Back To Contents')
@@ -47,6 +63,13 @@ Call this to create a new DeepAI_API instance.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | apiKey | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Your DeepAI key as found in your DeepAI dashboard. |
+
+<a name='F-DeepAI-DeepAI_API-realtimeStreamUtilities'></a>
+### realtimeStreamUtilities `constants` [#](#F-DeepAI-DeepAI_API-realtimeStreamUtilities 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Object with helper utilities for sending input to and playing back a realtime stream.
 
 <a name='M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32-'></a>
 ### getRealtimeStream(id) `method` [#](#M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
@@ -106,7 +129,7 @@ Creates a new real-time stream. The status field will initially be "PENDING" whi
 
 ##### Returns
 
-Stream Info object containing URLs which may be used to connect to the stream by sending input and receiving output.
+RealtimeStream object containing URLs which may be used to connect to the stream by sending input and receiving output.
 
 ##### Parameters
 
@@ -128,10 +151,138 @@ Abort a single realtime stream.
 
 ##### Returns
 
-Stream Info object
+RealtimeStream object
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | ID of the stream to stop |
+
+<a name='T-DeepAI-RealtimeStream'></a>
+## RealtimeStream [#](#T-DeepAI-RealtimeStream 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI
+
+##### Summary
+
+Represents the status and configuration for a single Realtime video stream.
+
+<a name='P-DeepAI-RealtimeStream-input_url'></a>
+### input_url `property` [#](#P-DeepAI-RealtimeStream-input_url 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+URL at which you should send your input. This URL is compatible with ffmpeg tools based upon it.
+
+<a name='P-DeepAI-RealtimeStream-output_url'></a>
+### output_url `property` [#](#P-DeepAI-RealtimeStream-output_url 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+URL at which the results can be streamed back. This URL is compatible with ffmpeg and tools based upon it, like Ventuz.
+
+<a name='P-DeepAI-RealtimeStream-status'></a>
+### status `property` [#](#P-DeepAI-RealtimeStream-status 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+One of PENDING, RUNNING, STOPPED, FAILED
+
+<a name='T-DeepAI-RealtimeStreamUtilities'></a>
+## RealtimeStreamUtilities [#](#T-DeepAI-RealtimeStreamUtilities 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI
+
+##### Summary
+
+A collection of helper functions for use with real time streams, such as sending webcam input to a stream, or playing the output of a stream.
+
+<a name='M-DeepAI-RealtimeStreamUtilities-#ctor'></a>
+### #ctor() `constructor` [#](#M-DeepAI-RealtimeStreamUtilities-#ctor 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Construct a new instance - this is done automatically as this object will be available on all DeepAI_API objects.
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='M-DeepAI-RealtimeStreamUtilities-getPlayerCmdForRealtimeStream-DeepAI-RealtimeStream-'></a>
+### getPlayerCmdForRealtimeStream(stream) `method` [#](#M-DeepAI-RealtimeStreamUtilities-getPlayerCmdForRealtimeStream-DeepAI-RealtimeStream- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Get the program name and arguments to launch a process that will play the output of a realtime stream.
+
+##### Returns
+
+program name and arguments as array
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| stream | [DeepAI.RealtimeStream](#T-DeepAI-RealtimeStream 'DeepAI.RealtimeStream') | The realtime stream to play. |
+
+<a name='M-DeepAI-RealtimeStreamUtilities-getVideoCaptureDevices'></a>
+### getVideoCaptureDevices() `method` [#](#M-DeepAI-RealtimeStreamUtilities-getVideoCaptureDevices 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Get a list of availabe video capture device names.
+
+##### Returns
+
+List of string device names
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-DeepAI-RealtimeStreamUtilities-launchPlayerForStream-DeepAI-RealtimeStream,System-Boolean-'></a>
+### launchPlayerForStream(stream,showWindow) `method` [#](#M-DeepAI-RealtimeStreamUtilities-launchPlayerForStream-DeepAI-RealtimeStream,System-Boolean- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Launches a new process to play the output of a realtime stream in a window.
+
+##### Returns
+
+Windows Process handle
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| stream | [DeepAI.RealtimeStream](#T-DeepAI-RealtimeStream 'DeepAI.RealtimeStream') | The stream to play back. |
+| showWindow | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | Set to false to hide the command prompt. (Not recommended.) |
+
+<a name='M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean-'></a>
+### launchWebcamSenderForStream(stream,cameraName,bitrateKbps,showWindow) `method` [#](#M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Launches a new process to play the output of a realtime stream in a window.
+
+##### Returns
+
+Windows Process handle
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| stream | [DeepAI.RealtimeStream](#T-DeepAI-RealtimeStream 'DeepAI.RealtimeStream') | The stream to play back. |
+| cameraName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of the directshow device to capture. |
+| bitrateKbps | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Bitrate of the stream to send. |
+| showWindow | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | Set to false to hide the command prompt. (Not recommended.) |
+
+<a name='T-DeepAI-Properties-Resources'></a>
+## Resources [#](#T-DeepAI-Properties-Resources 'Go To Here') [=](#contents 'Back To Contents')
+
