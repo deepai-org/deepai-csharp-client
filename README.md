@@ -302,3 +302,53 @@ Windows Process handle
 | bitrateKbps | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Bitrate of the stream to send. |
 | showWindow | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | Set to false to hide the command prompt. (Not recommended.) |
 
+<a name='T-DeepAI-Properties-Resources'></a>
+## Resources [#](#T-DeepAI-Properties-Resources 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI.Properties
+
+##### Summary
+
+A strongly-typed resource class, for looking up localized strings, etc.
+
+<a name='P-DeepAI-Properties-Resources-Culture'></a>
+### Culture `property` [#](#P-DeepAI-Properties-Resources-Culture 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Overrides the current thread's CurrentUICulture property for all resource lookups using this strongly typed resource class.
+
+<a name='P-DeepAI-Properties-Resources-ffmpeg'></a>
+### ffmpeg `property` [#](#P-DeepAI-Properties-Resources-ffmpeg 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Looks up a localized resource of type System.Byte[].
+
+<a name='P-DeepAI-Properties-Resources-ffplay'></a>
+### ffplay `property` [#](#P-DeepAI-Properties-Resources-ffplay 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Looks up a localized resource of type System.Byte[].
+
+<a name='P-DeepAI-Properties-Resources-ResourceManager'></a>
+### ResourceManager `property` [#](#P-DeepAI-Properties-Resources-ResourceManager 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Returns the cached ResourceManager instance used by this class.
+
+<a name='T-DeepAI-RealtimeStreamUtilities-VideoStreamFormat'></a>
+## VideoStreamFormat [#](#T-DeepAI-RealtimeStreamUtilities-VideoStreamFormat 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI.RealtimeStreamUtilities
+
+##### Summary
+
+Represents the framerate and frame size of a video stream.
+
