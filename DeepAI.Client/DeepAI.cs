@@ -48,6 +48,14 @@ namespace DeepAI
         public IList<RealtimeStream> streams { get; set; }
     }
 
+    /// <summary>
+    /// Basic information about a DeepAI account
+    /// </summary>
+    public class DeepAIAccountInfo
+    {
+        public string email { get; set; }
+    }
+
     public class DeepAIError : Exception
     {
         public DeepAIError(String s) : base(s)
@@ -185,6 +193,15 @@ namespace DeepAI
                     throw new DeepAIError("Web Error: "+e.Message);
                 }
             }
+        }
+
+        /// <summary>
+        /// Get basic infomation about the account associated with the API Key
+        /// </summary>
+        /// <returns>DeepAIAccountInfo object</returns>
+        public DeepAIAccountInfo getAccountInfo()
+        {
+            return JsonConvert.DeserializeObject<DeepAIAccountInfo>(stringApiCall(url_path: "get_account_info"), deserializerSettings);
         }
 
         /// <summary>
