@@ -30,6 +30,20 @@ namespace DeepAI
 
         }
 
+        /// <summary>
+        /// Represents the framerate and frame size of a video stream.
+        /// </summary>
+        public class VideoStreamFormat
+        {
+            public readonly int FrameRate;
+            public readonly System.Drawing.Size FrameSize;
+            public VideoStreamFormat(int frameRate, System.Drawing.Size frameSize)
+            {
+                FrameRate = frameRate;
+                FrameSize = frameSize;
+            }
+        }
+
         private static String extractEmbeddedResource(String intname, String outname)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -108,6 +122,33 @@ namespace DeepAI
             }
             return names.ToArray();
         }
+
+
+
+        /// <summary>
+        /// Get the frame rate and frame size combinations that the given input device supports.
+        /// </summary>
+        /// <param name="deviceName">The input device to get capabilities for.</param>
+        /// <returns>Array of supported formats for the device.</returns>
+        public VideoStreamFormat[] getVideoStreamFormatsForDeviceName(string deviceName)
+        {
+            var capabilities = new List<VideoStreamFormat>();
+            FilterInfoCollection VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            foreach (FilterInfo VideoCaptureDevice in VideoCaptureDevices)
+            {
+                if (VideoCaptureDevice.Name.Equals(deviceName))
+                {
+                    VideoCaptureDevice videoDevice = new VideoCaptureDevice(VideoCaptureDevice.MonikerString);
+                    foreach (VideoCapabilities videoCapabilities in videoDevice.VideoCapabilities)
+                    {
+                        capabilities.Add(new VideoStreamFormat(videoCapabilities.AverageFrameRate, videoCapabilities.FrameSize));
+                    }
+                    break;
+                }
+            }
+            return capabilities.ToArray();
+        }
+
 
         /// <summary>
         /// Launches a new process to play the output of a realtime stream in a window.
