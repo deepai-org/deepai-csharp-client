@@ -29,6 +29,7 @@ Or clone and build this repository with Visual Studio 2013 or later.
   - [#ctor()](#M-DeepAI-RealtimeStreamUtilities-#ctor 'DeepAI.RealtimeStreamUtilities.#ctor')
   - [getPlayerCmdForRealtimeStream(stream)](#M-DeepAI-RealtimeStreamUtilities-getPlayerCmdForRealtimeStream-DeepAI-RealtimeStream- 'DeepAI.RealtimeStreamUtilities.getPlayerCmdForRealtimeStream(DeepAI.RealtimeStream)')
   - [getVideoCaptureDevices()](#M-DeepAI-RealtimeStreamUtilities-getVideoCaptureDevices 'DeepAI.RealtimeStreamUtilities.getVideoCaptureDevices')
+  - [getVideoStreamFormatsForDeviceName(deviceName)](#M-DeepAI-RealtimeStreamUtilities-getVideoStreamFormatsForDeviceName-System-String- 'DeepAI.RealtimeStreamUtilities.getVideoStreamFormatsForDeviceName(System.String)')
   - [launchPlayerForStream(stream,showWindow)](#M-DeepAI-RealtimeStreamUtilities-launchPlayerForStream-DeepAI-RealtimeStream,System-Boolean- 'DeepAI.RealtimeStreamUtilities.launchPlayerForStream(DeepAI.RealtimeStream,System.Boolean)')
   - [launchWebcamSenderForStream(stream,cameraName,bitrateKbps,showWindow)](#M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean- 'DeepAI.RealtimeStreamUtilities.launchWebcamSenderForStream(DeepAI.RealtimeStream,System.String,System.Int32,System.Boolean)')
 - [Resources](#T-DeepAI-Properties-Resources 'DeepAI.Properties.Resources')
@@ -36,6 +37,7 @@ Or clone and build this repository with Visual Studio 2013 or later.
   - [ffmpeg](#P-DeepAI-Properties-Resources-ffmpeg 'DeepAI.Properties.Resources.ffmpeg')
   - [ffplay](#P-DeepAI-Properties-Resources-ffplay 'DeepAI.Properties.Resources.ffplay')
   - [ResourceManager](#P-DeepAI-Properties-Resources-ResourceManager 'DeepAI.Properties.Resources.ResourceManager')
+- [VideoStreamFormat](#T-DeepAI-RealtimeStreamUtilities-VideoStreamFormat 'DeepAI.RealtimeStreamUtilities.VideoStreamFormat')
 
 <a name='assembly'></a>
 # DeepAI [#](#assembly 'Go To Here') [=](#contents 'Back To Contents')
@@ -245,6 +247,23 @@ List of string device names
 
 This method has no parameters.
 
+<a name='M-DeepAI-RealtimeStreamUtilities-getVideoStreamFormatsForDeviceName-System-String-'></a>
+### getVideoStreamFormatsForDeviceName(deviceName) `method` [#](#M-DeepAI-RealtimeStreamUtilities-getVideoStreamFormatsForDeviceName-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Get the frame rate and frame size combinations that the given input device supports.
+
+##### Returns
+
+Array of supported formats for the device.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| deviceName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The input device to get capabilities for. |
+
 <a name='M-DeepAI-RealtimeStreamUtilities-launchPlayerForStream-DeepAI-RealtimeStream,System-Boolean-'></a>
 ### launchPlayerForStream(stream,showWindow) `method` [#](#M-DeepAI-RealtimeStreamUtilities-launchPlayerForStream-DeepAI-RealtimeStream,System-Boolean- 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -282,7 +301,4 @@ Windows Process handle
 | cameraName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of the directshow device to capture. |
 | bitrateKbps | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Bitrate of the stream to send. |
 | showWindow | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | Set to false to hide the command prompt. (Not recommended.) |
-
-<a name='T-DeepAI-Properties-Resources'></a>
-## Resources [#](#T-DeepAI-Properties-Resources 'Go To Here') [=](#contents 'Back To Contents')
 
