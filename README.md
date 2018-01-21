@@ -16,14 +16,20 @@ Or clone and build this repository with Visual Studio 2013 or later.
 - [DeepAI_API](#T-DeepAI-DeepAI_API 'DeepAI.DeepAI_API')
   - [#ctor(apiKey)](#M-DeepAI-DeepAI_API-#ctor-System-String- 'DeepAI.DeepAI_API.#ctor(System.String)')
   - [realtimeStreamUtilities](#F-DeepAI-DeepAI_API-realtimeStreamUtilities 'DeepAI.DeepAI_API.realtimeStreamUtilities')
+  - [getAccountInfo()](#M-DeepAI-DeepAI_API-getAccountInfo 'DeepAI.DeepAI_API.getAccountInfo')
+  - [getAvailableModelOptionsForModelName(modelName)](#M-DeepAI-DeepAI_API-getAvailableModelOptionsForModelName-System-String- 'DeepAI.DeepAI_API.getAvailableModelOptionsForModelName(System.String)')
   - [getRealtimeStream(id)](#M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32- 'DeepAI.DeepAI_API.getRealtimeStream(System.Int32)')
   - [getRealtimeStreams()](#M-DeepAI-DeepAI_API-getRealtimeStreams 'DeepAI.DeepAI_API.getRealtimeStreams')
+  - [modifyRealtimeStream(id,output_bitrate_kbps)](#M-DeepAI-DeepAI_API-modifyRealtimeStream-System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}- 'DeepAI.DeepAI_API.modifyRealtimeStream(System.Int32,System.Int32,System.Collections.Generic.Dictionary{System.String,System.Object})')
   - [objectAsJsonString(a)](#M-DeepAI-DeepAI_API-objectAsJsonString-System-Object- 'DeepAI.DeepAI_API.objectAsJsonString(System.Object)')
-  - [startRealtimeStream(model,input_type,output_type,fps,width,height)](#M-DeepAI-DeepAI_API-startRealtimeStream-System-String,System-String,System-String,System-Single,System-Int32,System-Int32- 'DeepAI.DeepAI_API.startRealtimeStream(System.String,System.String,System.String,System.Single,System.Int32,System.Int32)')
+  - [startRealtimeStream(model,input_type,output_type,fps,width,height,output_bitrate_kbps,model_options)](#M-DeepAI-DeepAI_API-startRealtimeStream-System-String,System-String,System-String,System-Single,System-Int32,System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}- 'DeepAI.DeepAI_API.startRealtimeStream(System.String,System.String,System.String,System.Single,System.Int32,System.Int32,System.Int32,System.Collections.Generic.Dictionary{System.String,System.Object})')
   - [stopRealtimeStream(id)](#M-DeepAI-DeepAI_API-stopRealtimeStream-System-Int32- 'DeepAI.DeepAI_API.stopRealtimeStream(System.Int32)')
+- [DeepAIAccountInfo](#T-DeepAI-DeepAIAccountInfo 'DeepAI.DeepAIAccountInfo')
 - [RealtimeStream](#T-DeepAI-RealtimeStream 'DeepAI.RealtimeStream')
   - [input_url](#P-DeepAI-RealtimeStream-input_url 'DeepAI.RealtimeStream.input_url')
+  - [model_options](#P-DeepAI-RealtimeStream-model_options 'DeepAI.RealtimeStream.model_options')
   - [output_url](#P-DeepAI-RealtimeStream-output_url 'DeepAI.RealtimeStream.output_url')
+  - [state_change_reason](#P-DeepAI-RealtimeStream-state_change_reason 'DeepAI.RealtimeStream.state_change_reason')
   - [status](#P-DeepAI-RealtimeStream-status 'DeepAI.RealtimeStream.status')
 - [RealtimeStreamUtilities](#T-DeepAI-RealtimeStreamUtilities 'DeepAI.RealtimeStreamUtilities')
   - [#ctor()](#M-DeepAI-RealtimeStreamUtilities-#ctor 'DeepAI.RealtimeStreamUtilities.#ctor')
@@ -31,7 +37,7 @@ Or clone and build this repository with Visual Studio 2013 or later.
   - [getVideoCaptureDevices()](#M-DeepAI-RealtimeStreamUtilities-getVideoCaptureDevices 'DeepAI.RealtimeStreamUtilities.getVideoCaptureDevices')
   - [getVideoStreamFormatsForDeviceName(deviceName)](#M-DeepAI-RealtimeStreamUtilities-getVideoStreamFormatsForDeviceName-System-String- 'DeepAI.RealtimeStreamUtilities.getVideoStreamFormatsForDeviceName(System.String)')
   - [launchPlayerForStream(stream,showWindow)](#M-DeepAI-RealtimeStreamUtilities-launchPlayerForStream-DeepAI-RealtimeStream,System-Boolean- 'DeepAI.RealtimeStreamUtilities.launchPlayerForStream(DeepAI.RealtimeStream,System.Boolean)')
-  - [launchWebcamSenderForStream(stream,cameraName,bitrateKbps,showWindow)](#M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean- 'DeepAI.RealtimeStreamUtilities.launchWebcamSenderForStream(DeepAI.RealtimeStream,System.String,System.Int32,System.Boolean)')
+  - [launchWebcamSenderForStream()](#M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean,System-Int32,System-Int32- 'DeepAI.RealtimeStreamUtilities.launchWebcamSenderForStream(DeepAI.RealtimeStream,System.String,System.Int32,System.Boolean,System.Int32,System.Int32)')
 - [Resources](#T-DeepAI-Properties-Resources 'DeepAI.Properties.Resources')
   - [Culture](#P-DeepAI-Properties-Resources-Culture 'DeepAI.Properties.Resources.Culture')
   - [ffmpeg](#P-DeepAI-Properties-Resources-ffmpeg 'DeepAI.Properties.Resources.ffmpeg')
@@ -73,6 +79,38 @@ Call this to create a new DeepAI_API instance.
 
 Object with helper utilities for sending input to and playing back a realtime stream.
 
+<a name='M-DeepAI-DeepAI_API-getAccountInfo'></a>
+### getAccountInfo() `method` [#](#M-DeepAI-DeepAI_API-getAccountInfo 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Get basic infomation about the account associated with the API Key
+
+##### Returns
+
+DeepAIAccountInfo object
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-DeepAI-DeepAI_API-getAvailableModelOptionsForModelName-System-String-'></a>
+### getAvailableModelOptionsForModelName(modelName) `method` [#](#M-DeepAI-DeepAI_API-getAvailableModelOptionsForModelName-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Get the available model options for a given model name
+
+##### Returns
+
+Object representing the possible choices of various fields
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| modelName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of the model to get options for |
+
 <a name='M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32-'></a>
 ### getRealtimeStream(id) `method` [#](#M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -105,6 +143,24 @@ List of stream info objects
 
 This method has no parameters.
 
+<a name='M-DeepAI-DeepAI_API-modifyRealtimeStream-System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}-'></a>
+### modifyRealtimeStream(id,output_bitrate_kbps) `method` [#](#M-DeepAI-DeepAI_API-modifyRealtimeStream-System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Modify a single realtime stream.
+
+##### Returns
+
+RealtimeStream object
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | ID of the stream to modify |
+| output_bitrate_kbps | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | If provided, set the output bitrate of the stream to this value. |
+
 <a name='M-DeepAI-DeepAI_API-objectAsJsonString-System-Object-'></a>
 ### objectAsJsonString(a) `method` [#](#M-DeepAI-DeepAI_API-objectAsJsonString-System-Object- 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -122,8 +178,8 @@ Simple helper method to pretty-print an object response of any API call for easi
 | ---- | ---- | ----------- |
 | a | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') |  |
 
-<a name='M-DeepAI-DeepAI_API-startRealtimeStream-System-String,System-String,System-String,System-Single,System-Int32,System-Int32-'></a>
-### startRealtimeStream(model,input_type,output_type,fps,width,height) `method` [#](#M-DeepAI-DeepAI_API-startRealtimeStream-System-String,System-String,System-String,System-Single,System-Int32,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-DeepAI-DeepAI_API-startRealtimeStream-System-String,System-String,System-String,System-Single,System-Int32,System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}-'></a>
+### startRealtimeStream(model,input_type,output_type,fps,width,height,output_bitrate_kbps,model_options) `method` [#](#M-DeepAI-DeepAI_API-startRealtimeStream-System-String,System-String,System-String,System-Single,System-Int32,System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -143,6 +199,8 @@ RealtimeStream object containing URLs which may be used to connect to the stream
 | fps | [System.Single](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Single 'System.Single') | Frames per second of the input video stream. The output stream will be the same frame rate. |
 | width | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | width of the video to process in pixels |
 | height | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | height of the video to process in pixels |
+| output_bitrate_kbps | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Bitrate of the output video stream in kbps. If not provided, the system default will be used. |
+| model_options | [System.Collections.Generic.Dictionary{System.String,System.Object}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.Dictionary 'System.Collections.Generic.Dictionary{System.String,System.Object}') | Dictionary of options to send to the processing model. Possible values may be retrieved with api.getAvailableModelOptionsForModelName(...) |
 
 <a name='M-DeepAI-DeepAI_API-stopRealtimeStream-System-Int32-'></a>
 ### stopRealtimeStream(id) `method` [#](#M-DeepAI-DeepAI_API-stopRealtimeStream-System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
@@ -161,6 +219,17 @@ RealtimeStream object
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | ID of the stream to stop |
 
+<a name='T-DeepAI-DeepAIAccountInfo'></a>
+## DeepAIAccountInfo [#](#T-DeepAI-DeepAIAccountInfo 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI
+
+##### Summary
+
+Basic information about a DeepAI account
+
 <a name='T-DeepAI-RealtimeStream'></a>
 ## RealtimeStream [#](#T-DeepAI-RealtimeStream 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -177,7 +246,14 @@ Represents the status and configuration for a single Realtime video stream.
 
 ##### Summary
 
-URL at which you should send your input. This URL is compatible with ffmpeg tools based upon it.
+URL at which you should send your input. This URL is compatible with ffmpeg and tools based upon it.
+
+<a name='P-DeepAI-RealtimeStream-model_options'></a>
+### model_options `property` [#](#P-DeepAI-RealtimeStream-model_options 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Currently active model options of the stream.
 
 <a name='P-DeepAI-RealtimeStream-output_url'></a>
 ### output_url `property` [#](#P-DeepAI-RealtimeStream-output_url 'Go To Here') [=](#contents 'Back To Contents')
@@ -185,6 +261,13 @@ URL at which you should send your input. This URL is compatible with ffmpeg tool
 ##### Summary
 
 URL at which the results can be streamed back. This URL is compatible with ffmpeg and tools based upon it, like Ventuz.
+
+<a name='P-DeepAI-RealtimeStream-state_change_reason'></a>
+### state_change_reason `property` [#](#P-DeepAI-RealtimeStream-state_change_reason 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+The description of the reason for the change in status if it is known. For example, if transitioned to STOPPED due to inactivity, or FAILED due to DeepAI internal error.
 
 <a name='P-DeepAI-RealtimeStream-status'></a>
 ### status `property` [#](#P-DeepAI-RealtimeStream-status 'Go To Here') [=](#contents 'Back To Contents')
@@ -282,12 +365,8 @@ Windows Process handle
 | stream | [DeepAI.RealtimeStream](#T-DeepAI-RealtimeStream 'DeepAI.RealtimeStream') | The stream to play back. |
 | showWindow | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | Set to false to hide the command prompt. (Not recommended.) |
 
-<a name='M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean-'></a>
-### launchWebcamSenderForStream(stream,cameraName,bitrateKbps,showWindow) `method` [#](#M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Launches a new process to play the output of a realtime stream in a window.
+<a name='M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean,System-Int32,System-Int32-'></a>
+### launchWebcamSenderForStream() `method` [#](#M-DeepAI-RealtimeStreamUtilities-launchWebcamSenderForStream-DeepAI-RealtimeStream,System-String,System-Int32,System-Boolean,System-Int32,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Returns
 
@@ -295,12 +374,7 @@ Windows Process handle
 
 ##### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| stream | [DeepAI.RealtimeStream](#T-DeepAI-RealtimeStream 'DeepAI.RealtimeStream') | The stream to play back. |
-| cameraName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of the directshow device to capture. |
-| bitrateKbps | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Bitrate of the stream to send. |
-| showWindow | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | Set to false to hide the command prompt. (Not recommended.) |
+This method has no parameters.
 
 <a name='T-DeepAI-Properties-Resources'></a>
 ## Resources [#](#T-DeepAI-Properties-Resources 'Go To Here') [=](#contents 'Back To Contents')
