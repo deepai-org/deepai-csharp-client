@@ -70,11 +70,18 @@ namespace DeepAI
             extracted = true;
         }
 
-        private String[] getWebcamInputStreamCmdForSettings(String cameraName, int bitrateKbps, String output_url, String output_format, float fps)
+        private String[] getWebcamInputStreamCmdForSettings(String cameraName, int bitrateKbps, String output_url, String output_format, float fps, int width=-1, int height=-1)
         {
             // output_format = mpegts
             extractEmbeddedResourcesIfNeeded();
-            return new String[]{progNameToFilePath["ffmpeg"] , " -f dshow -framerate " + fps + " -i video=\"" + cameraName + "\" -b:v " + bitrateKbps + "k -f " + output_format + " " + output_url};
+
+            string size_string = "";
+            if (width > 0 && height > 0)
+            {
+                size_string = "-video_size "+width+"x"+height;
+            }
+
+            return new String[] { progNameToFilePath["ffmpeg"], " -f dshow " + size_string + " -framerate " + fps + " -i video=\"" + cameraName + "\" -b:v " + bitrateKbps + "k -f " + output_format + " " + output_url };
         }
 
         private String[] getPlayerCmdForSettings(String input_format, String input_url)
@@ -91,10 +98,10 @@ namespace DeepAI
         /// <param name="cameraName"Name of the directShow device to capture.</param>
         /// <param name="bitrateKbps">Bitrate of the compressed video stream to send.</param>
         /// <returns>program name and arguments as array</returns>
-        public String[] getWebcamInputStreamCmdForRealtimeStream(DeepAI.RealtimeStream stream, String cameraName, int bitrateKbps)
+        public String[] getWebcamInputStreamCmdForRealtimeStream(DeepAI.RealtimeStream stream, String cameraName, int bitrateKbps, int width = -1, int height = -1)
         {
             String output_format = "mpegts"; //make ths adjustable
-            return getWebcamInputStreamCmdForSettings(cameraName, bitrateKbps, stream.input_url, output_format, stream.fps);
+            return getWebcamInputStreamCmdForSettings(cameraName, bitrateKbps, stream.input_url, output_format, stream.fps, width: width, height: height);
         }
 
         /// <summary>
@@ -179,10 +186,13 @@ namespace DeepAI
         /// <param name="cameraName">Name of the directshow device to capture.</param>
         /// <param name="bitrateKbps">Bitrate of the stream to send.</param>
         /// <param name="showWindow">Set to false to hide the command prompt. (Not recommended.)</param>
+        /// <param name="width">Width of the video to capture. (Not Set = Device Default)</param>
+        /// <param name="width">Height of the video to capture. (Not Set = Device Default)</param>
+
         /// <returns>Windows Process handle</returns>
-        public Process launchWebcamSenderForStream(DeepAI.RealtimeStream stream, String cameraName, int bitrateKbps, Boolean showWindow = true)
+        public Process launchWebcamSenderForStream(DeepAI.RealtimeStream stream, String cameraName, int bitrateKbps, Boolean showWindow = true, int width=-1, int height=-1)
         {
-            String[] cmdAndArgs = getWebcamInputStreamCmdForRealtimeStream(stream, cameraName, bitrateKbps);
+            String[] cmdAndArgs = getWebcamInputStreamCmdForRealtimeStream(stream, cameraName, bitrateKbps, width:width, height:height);
             var processInfo = new ProcessStartInfo
             {
                 UseShellExecute = false,

@@ -27,7 +27,7 @@ namespace DeepAI
         public string input_type { get; set; }
         public string output_type { get; set; }
         /// <summary>
-        /// URL at which you should send your input. This URL is compatible with ffmpeg tools based upon it.
+        /// URL at which you should send your input. This URL is compatible with ffmpeg and tools based upon it.
         /// </summary>
         public string input_url { get; set; }
 
@@ -41,11 +41,31 @@ namespace DeepAI
         public int height { get; set; }
         public int width { get; set; }
         public int output_bitrate_kbps { get; set; }
+
+        /// <summary>
+        /// The description of the reason for the change in status if it is known. For example, if transitioned to STOPPED due to inactivity, or FAILED due to DeepAI internal error.
+        /// </summary>
+        public string state_change_reason { get; set; }
+
+        /// <summary>
+        /// Currently active model options of the stream.
+        /// </summary>
+        public Dictionary<string, object> model_options { get; set; }
     }
 
     class RealtimeStreamList
     {
         public IList<RealtimeStream> streams { get; set; }
+    }
+
+    public class AvailableModelOptions : Dictionary<string, ModelOptionPossibleValues>
+    {
+    }
+
+    public class ModelOptionPossibleValues
+    {
+        public string type { get; set; }
+        public IList<string> choices { get; set; }
     }
 
     /// <summary>
@@ -237,6 +257,43 @@ namespace DeepAI
         }
 
         /// <summary>
+        /// Get the available model options for a given model name
+        /// </summary>
+        /// <param name="modelName">Name of the model to get options for</param>
+        /// <returns>Object representing the possible choices of various fields</returns>
+        public AvailableModelOptions getAvailableModelOptionsForModelName(string modelName)
+        {
+            return JsonConvert.DeserializeObject<AvailableModelOptions>(stringApiCall(url_path: "realtime-video/get-available-model-options/" + modelName), deserializerSettings);
+        }
+
+        /// <summary>
+        /// Modify a single realtime stream.
+        /// </summary>
+        /// <param name="id">ID of the stream to modify</param>
+        /// <param name="output_bitrate_kbps">If provided, set the output bitrate of the stream to this value.</param>
+        /// <returns>RealtimeStream object</returns>
+        public RealtimeStream modifyRealtimeStream(int id,
+            int output_bitrate_kbps = -1,
+            Dictionary<string, object> model_options = null
+            )
+        {
+            var stream_options = new Dictionary<string, object>
+            { 
+            };
+
+            if (output_bitrate_kbps > 0)
+            {
+                stream_options["output_bitrate_kbps"] = output_bitrate_kbps;
+            }
+            if (model_options != null)
+            {
+                stream_options["model_options"] = model_options;
+            }
+
+            return JsonConvert.DeserializeObject<RealtimeStream>(stringApiCall(url_path: "realtime-video/" + id + "/modify", method: "POST", dataObjectForJson: stream_options), deserializerSettings);
+        }
+
+        /// <summary>
         /// Creates a new real-time stream.
         /// The status field will initially be "PENDING" which will transition to "RUNNING" within 5 minutes.
         /// If the provided stream does not match the width and height values passed, it will be rescaled.
@@ -247,6 +304,8 @@ namespace DeepAI
         /// <param name="fps">Frames per second of the input video stream. The output stream will be the same frame rate.</param>
         /// <param name="width">width of the video to process in pixels</param>
         /// <param name="height">height of the video to process in pixels</param>
+        /// <param name="output_bitrate_kbps">Bitrate of the output video stream in kbps. If not provided, the system default will be used.</param>
+        /// <param name="model_options">Dictionary of options to send to the processing model. Possible values may be retrieved with api.getAvailableModelOptionsForModelName(...)</param>
         /// <returns>RealtimeStream object containing URLs which may be used to connect to the stream by sending input and receiving output.</returns>
         public RealtimeStream startRealtimeStream(
             String model,
@@ -254,18 +313,32 @@ namespace DeepAI
             String output_type,
             float fps,
             int width,
-            int height
+            int height,
+            int output_bitrate_kbps=-1,
+            Dictionary<string, object> model_options=null
             )
         {
-            return JsonConvert.DeserializeObject<RealtimeStream>(stringApiCall(url_path: "realtime-video/start", method: "POST", dataObjectForJson: new
+            var stream_options = new Dictionary<string, object>
+            { 
+                { "model", model },
+                { "input_type", input_type },
+                { "output_type", output_type },
+                { "fps", fps },
+                { "width", width },
+                { "height", height}
+            };
+
+            if (output_bitrate_kbps > 0)
             {
-                model=model,
-                input_type = input_type,
-                output_type = output_type,
-                fps=fps,
-                width=width,
-                height=height
-            }), deserializerSettings);
+                stream_options["output_bitrate_kbps"] = output_bitrate_kbps;
+            }
+            if (model_options != null)
+            {
+                stream_options["model_options"] = model_options;
+            }
+
+
+            return JsonConvert.DeserializeObject<RealtimeStream>(stringApiCall(url_path: "realtime-video/start", method: "POST", dataObjectForJson: stream_options), deserializerSettings);
 
         }
 
