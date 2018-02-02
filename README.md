@@ -16,15 +16,21 @@ Or clone and build this repository with Visual Studio 2013 or later.
 - [DeepAI_API](#T-DeepAI-DeepAI_API 'DeepAI.DeepAI_API')
   - [#ctor(apiKey)](#M-DeepAI-DeepAI_API-#ctor-System-String- 'DeepAI.DeepAI_API.#ctor(System.String)')
   - [realtimeStreamUtilities](#F-DeepAI-DeepAI_API-realtimeStreamUtilities 'DeepAI.DeepAI_API.realtimeStreamUtilities')
+  - [callStandardApi(model,inputs_and_options)](#M-DeepAI-DeepAI_API-callStandardApi-System-String,System-Object- 'DeepAI.DeepAI_API.callStandardApi(System.String,System.Object)')
   - [getAccountInfo()](#M-DeepAI-DeepAI_API-getAccountInfo 'DeepAI.DeepAI_API.getAccountInfo')
   - [getAvailableModelOptionsForModelName(modelName)](#M-DeepAI-DeepAI_API-getAvailableModelOptionsForModelName-System-String- 'DeepAI.DeepAI_API.getAvailableModelOptionsForModelName(System.String)')
   - [getRealtimeStream(id)](#M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32- 'DeepAI.DeepAI_API.getRealtimeStream(System.Int32)')
   - [getRealtimeStreams()](#M-DeepAI-DeepAI_API-getRealtimeStreams 'DeepAI.DeepAI_API.getRealtimeStreams')
-  - [modifyRealtimeStream(id,output_bitrate_kbps)](#M-DeepAI-DeepAI_API-modifyRealtimeStream-System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}- 'DeepAI.DeepAI_API.modifyRealtimeStream(System.Int32,System.Int32,System.Collections.Generic.Dictionary{System.String,System.Object})')
+  - [getVideoJob(id)](#M-DeepAI-DeepAI_API-getVideoJob-System-Int32- 'DeepAI.DeepAI_API.getVideoJob(System.Int32)')
+  - [modifyRealtimeStream(id,output_bitrate_kbps)](#M-DeepAI-DeepAI_API-modifyRealtimeStream-System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object},System-String- 'DeepAI.DeepAI_API.modifyRealtimeStream(System.Int32,System.Int32,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)')
   - [objectAsJsonString(a)](#M-DeepAI-DeepAI_API-objectAsJsonString-System-Object- 'DeepAI.DeepAI_API.objectAsJsonString(System.Object)')
   - [startRealtimeStream(model,input_type,output_type,fps,width,height,output_bitrate_kbps,model_options)](#M-DeepAI-DeepAI_API-startRealtimeStream-System-String,System-String,System-String,System-Single,System-Int32,System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}- 'DeepAI.DeepAI_API.startRealtimeStream(System.String,System.String,System.String,System.Single,System.Int32,System.Int32,System.Int32,System.Collections.Generic.Dictionary{System.String,System.Object})')
+  - [startVideoJob(model,video,fps,model_options)](#M-DeepAI-DeepAI_API-startVideoJob-System-String,System-Object,System-Single,System-Object- 'DeepAI.DeepAI_API.startVideoJob(System.String,System.Object,System.Single,System.Object)')
   - [stopRealtimeStream(id)](#M-DeepAI-DeepAI_API-stopRealtimeStream-System-Int32- 'DeepAI.DeepAI_API.stopRealtimeStream(System.Int32)')
 - [DeepAIAccountInfo](#T-DeepAI-DeepAIAccountInfo 'DeepAI.DeepAIAccountInfo')
+- [ObjectDictionary](#T-DeepAI-DeepAI_API-ObjectDictionary 'DeepAI.DeepAI_API.ObjectDictionary')
+  - [#ctor(a_source)](#M-DeepAI-DeepAI_API-ObjectDictionary-#ctor-System-Object- 'DeepAI.DeepAI_API.ObjectDictionary.#ctor(System.Object)')
+  - [ParseObject(a_source)](#M-DeepAI-DeepAI_API-ObjectDictionary-ParseObject-System-Object- 'DeepAI.DeepAI_API.ObjectDictionary.ParseObject(System.Object)')
 - [RealtimeStream](#T-DeepAI-RealtimeStream 'DeepAI.RealtimeStream')
   - [input_url](#P-DeepAI-RealtimeStream-input_url 'DeepAI.RealtimeStream.input_url')
   - [model_options](#P-DeepAI-RealtimeStream-model_options 'DeepAI.RealtimeStream.model_options')
@@ -43,6 +49,13 @@ Or clone and build this repository with Visual Studio 2013 or later.
   - [ffmpeg](#P-DeepAI-Properties-Resources-ffmpeg 'DeepAI.Properties.Resources.ffmpeg')
   - [ffplay](#P-DeepAI-Properties-Resources-ffplay 'DeepAI.Properties.Resources.ffplay')
   - [ResourceManager](#P-DeepAI-Properties-Resources-ResourceManager 'DeepAI.Properties.Resources.ResourceManager')
+- [StandardApiResponse](#T-DeepAI-StandardApiResponse 'DeepAI.StandardApiResponse')
+  - [output](#P-DeepAI-StandardApiResponse-output 'DeepAI.StandardApiResponse.output')
+  - [output_url](#P-DeepAI-StandardApiResponse-output_url 'DeepAI.StandardApiResponse.output_url')
+- [VideoJob](#T-DeepAI-VideoJob 'DeepAI.VideoJob')
+  - [est_total_cost](#P-DeepAI-VideoJob-est_total_cost 'DeepAI.VideoJob.est_total_cost')
+  - [results](#P-DeepAI-VideoJob-results 'DeepAI.VideoJob.results')
+  - [status](#P-DeepAI-VideoJob-status 'DeepAI.VideoJob.status')
 - [VideoStreamFormat](#T-DeepAI-RealtimeStreamUtilities-VideoStreamFormat 'DeepAI.RealtimeStreamUtilities.VideoStreamFormat')
 
 <a name='assembly'></a>
@@ -78,6 +91,24 @@ Call this to create a new DeepAI_API instance.
 ##### Summary
 
 Object with helper utilities for sending input to and playing back a realtime stream.
+
+<a name='M-DeepAI-DeepAI_API-callStandardApi-System-String,System-Object-'></a>
+### callStandardApi(model,inputs_and_options) `method` [#](#M-DeepAI-DeepAI_API-callStandardApi-System-String,System-Object- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Call a standard API to run a model on a single image or other input, such as text file.
+
+##### Returns
+
+Reponse object with either URL or immediate data.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| model | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the model to run. |
+| inputs_and_options | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | An anonymous object containing the inputs and options needed by the model, such as "image" or "style" |
 
 <a name='M-DeepAI-DeepAI_API-getAccountInfo'></a>
 ### getAccountInfo() `method` [#](#M-DeepAI-DeepAI_API-getAccountInfo 'Go To Here') [=](#contents 'Back To Contents')
@@ -143,8 +174,25 @@ List of stream info objects
 
 This method has no parameters.
 
-<a name='M-DeepAI-DeepAI_API-modifyRealtimeStream-System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}-'></a>
-### modifyRealtimeStream(id,output_bitrate_kbps) `method` [#](#M-DeepAI-DeepAI_API-modifyRealtimeStream-System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-DeepAI-DeepAI_API-getVideoJob-System-Int32-'></a>
+### getVideoJob(id) `method` [#](#M-DeepAI-DeepAI_API-getVideoJob-System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Get status and basic information about a video job.
+
+##### Returns
+
+VideoJob information object
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The numeric Job ID of the video to get. |
+
+<a name='M-DeepAI-DeepAI_API-modifyRealtimeStream-System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object},System-String-'></a>
+### modifyRealtimeStream(id,output_bitrate_kbps) `method` [#](#M-DeepAI-DeepAI_API-modifyRealtimeStream-System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object},System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -202,6 +250,26 @@ RealtimeStream object containing URLs which may be used to connect to the stream
 | output_bitrate_kbps | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Bitrate of the output video stream in kbps. If not provided, the system default will be used. |
 | model_options | [System.Collections.Generic.Dictionary{System.String,System.Object}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.Dictionary 'System.Collections.Generic.Dictionary{System.String,System.Object}') | Dictionary of options to send to the processing model. Possible values may be retrieved with api.getAvailableModelOptionsForModelName(...) |
 
+<a name='M-DeepAI-DeepAI_API-startVideoJob-System-String,System-Object,System-Single,System-Object-'></a>
+### startVideoJob(model,video,fps,model_options) `method` [#](#M-DeepAI-DeepAI_API-startVideoJob-System-String,System-Object,System-Single,System-Object- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Creates a new single-model video job using either a file upload or a URL of the video to process.
+
+##### Returns
+
+Object with the ID and status of the new video job.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| model | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The model name to process the video with |
+| video | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | The FileStream of video data to process, or a URL to download. |
+| fps | [System.Single](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Single 'System.Single') | Frames per second to process. If not given, the frame rate will be chosen automatically, typically the same as the input video, or 2fps for object detection models. |
+| model_options | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Dictionary of options to pass to the given model, such as {"style": "YOUR_STYLE_CHOICE"} |
+
 <a name='M-DeepAI-DeepAI_API-stopRealtimeStream-System-Int32-'></a>
 ### stopRealtimeStream(id) `method` [#](#M-DeepAI-DeepAI_API-stopRealtimeStream-System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -229,6 +297,49 @@ DeepAI
 ##### Summary
 
 Basic information about a DeepAI account
+
+<a name='T-DeepAI-DeepAI_API-ObjectDictionary'></a>
+## ObjectDictionary [#](#T-DeepAI-DeepAI_API-ObjectDictionary 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI.DeepAI_API
+
+<a name='M-DeepAI-DeepAI_API-ObjectDictionary-#ctor-System-Object-'></a>
+### #ctor(a_source) `constructor` [#](#M-DeepAI-DeepAI_API-ObjectDictionary-#ctor-System-Object- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Construct.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| a_source | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Source object. |
+
+<a name='M-DeepAI-DeepAI_API-ObjectDictionary-ParseObject-System-Object-'></a>
+### ParseObject(a_source) `method` [#](#M-DeepAI-DeepAI_API-ObjectDictionary-ParseObject-System-Object- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Create a dictionary from the given object (`a_source`).
+
+##### Returns
+
+Created dictionary.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| a_source | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Source object. |
+
+##### Exceptions
+
+| Name | Description |
+| ---- | ----------- |
+| [System.ArgumentNullException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentNullException 'System.ArgumentNullException') | Thrown if `a_source` is null. |
 
 <a name='T-DeepAI-RealtimeStream'></a>
 ## RealtimeStream [#](#T-DeepAI-RealtimeStream 'Go To Here') [=](#contents 'Back To Contents')
@@ -414,6 +525,59 @@ Looks up a localized resource of type System.Byte[].
 ##### Summary
 
 Returns the cached ResourceManager instance used by this class.
+
+<a name='T-DeepAI-StandardApiResponse'></a>
+## StandardApiResponse [#](#T-DeepAI-StandardApiResponse 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI
+
+<a name='P-DeepAI-StandardApiResponse-output'></a>
+### output `property` [#](#P-DeepAI-StandardApiResponse-output 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+The immediate output of the model
+
+<a name='P-DeepAI-StandardApiResponse-output_url'></a>
+### output_url `property` [#](#P-DeepAI-StandardApiResponse-output_url 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+The private URL at which the results are available, if present.
+
+<a name='T-DeepAI-VideoJob'></a>
+## VideoJob [#](#T-DeepAI-VideoJob 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI
+
+##### Summary
+
+Represents the status and output for a single Video job.
+
+<a name='P-DeepAI-VideoJob-est_total_cost'></a>
+### est_total_cost `property` [#](#P-DeepAI-VideoJob-est_total_cost 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+The estimated cost of the job if it runs to completion.
+
+<a name='P-DeepAI-VideoJob-results'></a>
+### results `property` [#](#P-DeepAI-VideoJob-results 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+The private URL at which the results are available, if present.
+
+<a name='P-DeepAI-VideoJob-status'></a>
+### status `property` [#](#P-DeepAI-VideoJob-status 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+One of: complete, in-progress, failed
 
 <a name='T-DeepAI-RealtimeStreamUtilities-VideoStreamFormat'></a>
 ## VideoStreamFormat [#](#T-DeepAI-RealtimeStreamUtilities-VideoStreamFormat 'Go To Here') [=](#contents 'Back To Contents')
