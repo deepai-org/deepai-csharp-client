@@ -81,14 +81,16 @@ namespace DeepAI
                 size_string = "-video_size "+width+"x"+height;
             }
 
-            return new String[] { progNameToFilePath["ffmpeg"], " -f dshow " + size_string + " -framerate " + fps + " -i video=\"" + cameraName + "\" -b:v " + bitrateKbps + "k -f " + output_format + " " + output_url };
+            string camera_source_params = " -f dshow " + size_string + " -framerate " + fps + " -i video=\"" + cameraName + "\" ";
+
+            return new String[] { progNameToFilePath["ffmpeg"], camera_source_params + " -b:v " + bitrateKbps + "k -f " + output_format + " " + output_url };
         }
 
         private String[] getPlayerCmdForSettings(String input_format, String input_url)
         {
             // input_format = mpegts
             extractEmbeddedResourcesIfNeeded();
-            return new String[]{progNameToFilePath["ffplay"] , " -probesize 1000 -f mpegts " + input_url};
+            return new String[] { progNameToFilePath["ffplay"], " -analyzeduration .1 -fflags nobuffer -probesize 32 -sync ext -f mpegts " + input_url + " -vf setpts=1000" };
         }
 
         /// <summary>
