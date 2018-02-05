@@ -244,7 +244,16 @@ namespace DeepAI
             }
         }
 
-        private string stringApiCallMultipartForm(String url_path, String method = "POST", Dictionary<String, object> dataObjectForForm = null)
+        private static byte[] streamToByteArray(Stream stream)
+        {
+            using (MemoryStream memStream = new MemoryStream())
+            {
+                stream.CopyTo(memStream);
+                return memStream.ToArray();
+            }
+        }
+
+        private HttpWebRequest makeMultipartRequest(String url_path, String method = "POST", Dictionary<String, object> dataObjectForForm = null)
         {
             // Use TLS 1.2
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -257,7 +266,8 @@ namespace DeepAI
             httpWebRequest.ContentType = formData.Headers.ContentType.ToString();
             httpWebRequest.Method = method;
 
-            foreach (var kvp in dataObjectForForm){
+            foreach (var kvp in dataObjectForForm)
+            {
                 if (kvp.Value is string)
                 {
                     string theString = (string)kvp.Value;
@@ -273,7 +283,7 @@ namespace DeepAI
                 }
                 else
                 {
-                    throw new DeepAIError("Unknown value type for form data key: "+kvp.Key);
+                    throw new DeepAIError("Unknown value type for form data key: " + kvp.Key);
                 }
             }
 
@@ -286,6 +296,38 @@ namespace DeepAI
             Stream requestStream = httpWebRequest.GetRequestStream();
             Task uploadTask = formData.CopyToAsync(requestStream);
             uploadTask.Wait();
+            return httpWebRequest;
+        }
+
+        private byte[] bytesApiCallMultipartForm(String url_path, String method = "POST", Dictionary<String, object> dataObjectForForm = null)
+        {
+            HttpWebRequest httpWebRequest = makeMultipartRequest(url_path, method: method, dataObjectForForm: dataObjectForForm);
+
+            try
+            {
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (Stream respStream = httpResponse.GetResponseStream())
+                {
+                    return streamToByteArray(respStream);
+                }
+            }
+            catch (System.Net.WebException e)
+            {
+                String errMsg = new StreamReader(e.Response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
+                if (errMsg != null && errMsg.Length > 0)
+                {
+                    throw new DeepAIError("Web Error: " + errMsg);
+                }
+                else
+                {
+                    throw new DeepAIError("Web Error: " + e.Message);
+                }
+            }
+        }
+
+        private string stringApiCallMultipartForm(String url_path, String method = "POST", Dictionary<String, object> dataObjectForForm = null)
+        {
+            HttpWebRequest httpWebRequest = makeMultipartRequest(url_path, method: method, dataObjectForForm: dataObjectForForm);
 
             try
             {
@@ -536,6 +578,19 @@ namespace DeepAI
         public StandardApiResponse callStandardApi(String model, Object inputs_and_options)
         {
             return JsonConvert.DeserializeObject<StandardApiResponse>(stringApiCallMultipartForm(url_path: "api/" + model, dataObjectForForm: new ObjectDictionary(inputs_and_options)), deserializerSettings);
+        }
+
+        /// <summary>
+        /// Call a standard API to run a model on a single image or other input, such as text file. Returns raw bytes of the output, such as JPEG data.
+        /// </summary>
+        /// <param name="model">The name of the model to run.</param>
+        /// <param name="inputs_and_options">An anonymous object containing the inputs and options needed by the model, such as "image" or "style"</param>
+        /// <returns>Byte array representing the output of the model, typically in JPEG format.</returns>
+        public byte[] callStandardApiWithBinaryResponse(String model, Object inputs_and_options)
+        {
+            Dictionary<String, object> options = new ObjectDictionary(inputs_and_options);
+            options["send_output_binary"] = "1";
+            return bytesApiCallMultipartForm(url_path: "api/" + model, dataObjectForForm: options);
         }
 
         /// <summary>
