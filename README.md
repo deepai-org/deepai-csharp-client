@@ -17,6 +17,7 @@ Or clone and build this repository with Visual Studio 2013 or later.
   - [#ctor(apiKey)](#M-DeepAI-DeepAI_API-#ctor-System-String- 'DeepAI.DeepAI_API.#ctor(System.String)')
   - [realtimeStreamUtilities](#F-DeepAI-DeepAI_API-realtimeStreamUtilities 'DeepAI.DeepAI_API.realtimeStreamUtilities')
   - [callStandardApi(model,inputs_and_options)](#M-DeepAI-DeepAI_API-callStandardApi-System-String,System-Object- 'DeepAI.DeepAI_API.callStandardApi(System.String,System.Object)')
+  - [callStandardApiWithBinaryResponse(model,inputs_and_options)](#M-DeepAI-DeepAI_API-callStandardApiWithBinaryResponse-System-String,System-Object- 'DeepAI.DeepAI_API.callStandardApiWithBinaryResponse(System.String,System.Object)')
   - [getAccountInfo()](#M-DeepAI-DeepAI_API-getAccountInfo 'DeepAI.DeepAI_API.getAccountInfo')
   - [getAvailableModelOptionsForModelName(modelName)](#M-DeepAI-DeepAI_API-getAvailableModelOptionsForModelName-System-String- 'DeepAI.DeepAI_API.getAvailableModelOptionsForModelName(System.String)')
   - [getRealtimeStream(id)](#M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32- 'DeepAI.DeepAI_API.getRealtimeStream(System.Int32)')
@@ -102,6 +103,24 @@ Call a standard API to run a model on a single image or other input, such as tex
 ##### Returns
 
 Reponse object with either URL or immediate data.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| model | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the model to run. |
+| inputs_and_options | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | An anonymous object containing the inputs and options needed by the model, such as "image" or "style" |
+
+<a name='M-DeepAI-DeepAI_API-callStandardApiWithBinaryResponse-System-String,System-Object-'></a>
+### callStandardApiWithBinaryResponse(model,inputs_and_options) `method` [#](#M-DeepAI-DeepAI_API-callStandardApiWithBinaryResponse-System-String,System-Object- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Call a standard API to run a model on a single image or other input, such as text file. Returns raw bytes of the output, such as JPEG data.
+
+##### Returns
+
+Byte array representing the output of the model, typically in JPEG format.
 
 ##### Parameters
 
