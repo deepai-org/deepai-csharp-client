@@ -13,6 +13,8 @@ Or clone and build this repository with Visual Studio 2013 or later.
 <a name='contents'></a>
 # Contents [#](#contents 'Go To Here')
 
+- [BrandsafeJob](#T-DeepAI-BrandsafeJob 'DeepAI.BrandsafeJob')
+- [BrandsafeJobResults](#T-DeepAI-BrandsafeJobResults 'DeepAI.BrandsafeJobResults')
 - [DeepAI_API](#T-DeepAI-DeepAI_API 'DeepAI.DeepAI_API')
   - [#ctor(apiKey)](#M-DeepAI-DeepAI_API-#ctor-System-String- 'DeepAI.DeepAI_API.#ctor(System.String)')
   - [realtimeStreamUtilities](#F-DeepAI-DeepAI_API-realtimeStreamUtilities 'DeepAI.DeepAI_API.realtimeStreamUtilities')
@@ -20,6 +22,7 @@ Or clone and build this repository with Visual Studio 2013 or later.
   - [callStandardApiWithBinaryResponse(model,inputs_and_options)](#M-DeepAI-DeepAI_API-callStandardApiWithBinaryResponse-System-String,System-Object- 'DeepAI.DeepAI_API.callStandardApiWithBinaryResponse(System.String,System.Object)')
   - [getAccountInfo()](#M-DeepAI-DeepAI_API-getAccountInfo 'DeepAI.DeepAI_API.getAccountInfo')
   - [getAvailableModelOptionsForModelName(modelName)](#M-DeepAI-DeepAI_API-getAvailableModelOptionsForModelName-System-String- 'DeepAI.DeepAI_API.getAvailableModelOptionsForModelName(System.String)')
+  - [getBrandsafeJob(id)](#M-DeepAI-DeepAI_API-getBrandsafeJob-System-String- 'DeepAI.DeepAI_API.getBrandsafeJob(System.String)')
   - [getRealtimeStream(id)](#M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32- 'DeepAI.DeepAI_API.getRealtimeStream(System.Int32)')
   - [getRealtimeStreams()](#M-DeepAI-DeepAI_API-getRealtimeStreams 'DeepAI.DeepAI_API.getRealtimeStreams')
   - [getVideoJob(id)](#M-DeepAI-DeepAI_API-getVideoJob-System-Int32- 'DeepAI.DeepAI_API.getVideoJob(System.Int32)')
@@ -28,6 +31,7 @@ Or clone and build this repository with Visual Studio 2013 or later.
   - [startRealtimeStream(model,input_type,output_type,fps,width,height,output_bitrate_kbps,model_options)](#M-DeepAI-DeepAI_API-startRealtimeStream-System-String,System-String,System-String,System-Single,System-Int32,System-Int32,System-Int32,System-Collections-Generic-Dictionary{System-String,System-Object}- 'DeepAI.DeepAI_API.startRealtimeStream(System.String,System.String,System.String,System.Single,System.Int32,System.Int32,System.Int32,System.Collections.Generic.Dictionary{System.String,System.Object})')
   - [startVideoJob(model,video,fps,model_options)](#M-DeepAI-DeepAI_API-startVideoJob-System-String,System-Object,System-Single,System-Object- 'DeepAI.DeepAI_API.startVideoJob(System.String,System.Object,System.Single,System.Object)')
   - [stopRealtimeStream(id)](#M-DeepAI-DeepAI_API-stopRealtimeStream-System-Int32- 'DeepAI.DeepAI_API.stopRealtimeStream(System.Int32)')
+  - [submitBrandsafeJob(url,extra_options)](#M-DeepAI-DeepAI_API-submitBrandsafeJob-System-String,System-Collections-Generic-Dictionary{System-String,System-Object}- 'DeepAI.DeepAI_API.submitBrandsafeJob(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})')
 - [DeepAIAccountInfo](#T-DeepAI-DeepAIAccountInfo 'DeepAI.DeepAIAccountInfo')
 - [ObjectDictionary](#T-DeepAI-DeepAI_API-ObjectDictionary 'DeepAI.DeepAI_API.ObjectDictionary')
   - [#ctor(a_source)](#M-DeepAI-DeepAI_API-ObjectDictionary-#ctor-System-Object- 'DeepAI.DeepAI_API.ObjectDictionary.#ctor(System.Object)')
@@ -61,6 +65,28 @@ Or clone and build this repository with Visual Studio 2013 or later.
 
 <a name='assembly'></a>
 # DeepAI [#](#assembly 'Go To Here') [=](#contents 'Back To Contents')
+
+<a name='T-DeepAI-BrandsafeJob'></a>
+## BrandsafeJob [#](#T-DeepAI-BrandsafeJob 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI
+
+##### Summary
+
+Represents the status and results of a Brandsafe Job.
+
+<a name='T-DeepAI-BrandsafeJobResults'></a>
+## BrandsafeJobResults [#](#T-DeepAI-BrandsafeJobResults 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+DeepAI
+
+##### Summary
+
+Represents the results of a Brandsafe Job.
 
 <a name='T-DeepAI-DeepAI_API'></a>
 ## DeepAI_API [#](#T-DeepAI-DeepAI_API 'Go To Here') [=](#contents 'Back To Contents')
@@ -160,6 +186,23 @@ Object representing the possible choices of various fields
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | modelName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of the model to get options for |
+
+<a name='M-DeepAI-DeepAI_API-getBrandsafeJob-System-String-'></a>
+### getBrandsafeJob(id) `method` [#](#M-DeepAI-DeepAI_API-getBrandsafeJob-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Get the status and output of a brandsafe job
+
+##### Returns
+
+A BrandsafeJob object with the status of the job. Results will not be present unless the job is complete
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| id | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The ID string of the job to get info for |
 
 <a name='M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32-'></a>
 ### getRealtimeStream(id) `method` [#](#M-DeepAI-DeepAI_API-getRealtimeStream-System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
@@ -305,6 +348,24 @@ RealtimeStream object
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | ID of the stream to stop |
+
+<a name='M-DeepAI-DeepAI_API-submitBrandsafeJob-System-String,System-Collections-Generic-Dictionary{System-String,System-Object}-'></a>
+### submitBrandsafeJob(url,extra_options) `method` [#](#M-DeepAI-DeepAI_API-submitBrandsafeJob-System-String,System-Collections-Generic-Dictionary{System-String,System-Object}- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Submit a new brandsafe job
+
+##### Returns
+
+A BrandsafeJob object with the status of the new job. Use the "id" field to query the status until it is finished.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| url | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The URL to scan |
+| extra_options | [System.Collections.Generic.Dictionary{System.String,System.Object}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.Dictionary 'System.Collections.Generic.Dictionary{System.String,System.Object}') | An optional dictionary of extra options to pass to the API |
 
 <a name='T-DeepAI-DeepAIAccountInfo'></a>
 ## DeepAIAccountInfo [#](#T-DeepAI-DeepAIAccountInfo 'Go To Here') [=](#contents 'Back To Contents')
