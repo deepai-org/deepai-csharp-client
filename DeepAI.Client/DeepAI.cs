@@ -60,6 +60,36 @@ namespace DeepAI
     }
 
     /// <summary>
+    /// Represents the status and results of a Brandsafe Job.
+    /// </summary>
+    public class BrandsafeJob
+    {
+        /* 
+        "id": "60b2f3d4c976411e99c99226f41c8d65",
+        "status": "pending" | "complete" | "failed",
+        "url_scanned": "https://example.com/url/to/be/scanned.html",
+        "date_scanned": "2018-09-15T15:53:00",
+        "results": {
+         */
+
+        public string id { get; set; }
+        public string status { get; set; } // one of  "pending" | "complete" | "failed"
+        public string url_scanned { get; set; }
+        public DateTime? date_scanned { get; set; }
+        public BrandsafeJobResults results { get; set; }
+
+    }
+
+    /// <summary>
+    /// Represents the results of a Brandsafe Job.
+    /// </summary>
+    public class BrandsafeJobResults
+    {
+        public IList<Dictionary<string, object>> images { get; set; }
+        public IList<Dictionary<string, object>> videos { get; set; }
+    }
+
+    /// <summary>
     /// Represents the status and output for a single Video job.
     /// </summary>
     public class VideoJob
@@ -591,6 +621,41 @@ namespace DeepAI
             Dictionary<String, object> options = new ObjectDictionary(inputs_and_options);
             options["send_output_binary"] = "1";
             return bytesApiCallMultipartForm(url_path: "api/" + model, dataObjectForForm: options);
+        }
+
+
+        /// <summary>
+        /// Submit a new brandsafe job
+        /// </summary>
+        /// <param name="url">The URL to scan</param>
+        /// <param name="extra_options">An optional dictionary of extra options to pass to the API</param>
+        /// <returns>A BrandsafeJob object with the status of the new job. Use the "id" field to query the status until it is finished.</returns>
+        public BrandsafeJob submitBrandsafeJob(
+            String url,
+            Dictionary<string, object> extra_options = null
+            )
+        {
+
+            var job_options = extra_options;
+            if (job_options == null)
+            {
+                job_options = new Dictionary<string, object> { };
+            }
+
+            job_options["url"] = url;
+
+            return JsonConvert.DeserializeObject<BrandsafeJob>(stringApiCall(url_path: "brandsafe", method: "POST", dataObjectForJson: job_options), deserializerSettings);
+
+        }
+
+        /// <summary>
+        /// Get the status and output of a brandsafe job
+        /// </summary>
+        /// <param name="id">The ID string of the job to get info for</param>
+        /// <returns>A BrandsafeJob object with the status of the job. Results will not be present unless the job is complete</returns>
+        public BrandsafeJob getBrandsafeJob(string id)
+        {
+            return JsonConvert.DeserializeObject<BrandsafeJob>(stringApiCall(url_path: "brandsafe/" + id), deserializerSettings);
         }
 
         /// <summary>
