@@ -7,6 +7,24 @@ Get this package from NuGet: https://www.nuget.org/packages/DeepAI.Client/
 
 Or clone and build this repository with Visual Studio 2013 or later.
 
+## Build notes:
+
+# Push to NuGet
+(Update AssemblyInfo.cs bumping the version number)
+(Switch to the DeepAI solution before build)
+(Build)
+cd '/c/users/kevin/documents/visual studio 2013/projects/deepai.client/deepai.client/'
+
+/c/Users/kevin/Desktop/nuget.exe pack DeepAI.csproj
+/c/Users/kevin/Desktop/nuget.exe push DeepAI.Client.1.3.0.nupkg -Timeout 3000 -Source https://www.nuget.org
+
+Log into NuGet and point the package to the new version.
+
+(Update readme with generated docs from: C:\Users\kevin\Documents\Visual Studio 2013\Projects\DeepAI.Client\DeepAI.Client\bin\Debug\DeepAI.md)
+or just upload in the web ui
+
+
+
 # Reference
 (generated from XMLDOC with [Vsxmd](https://github.com/lijunle/Vsxmd)):
 
